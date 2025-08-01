@@ -25,6 +25,12 @@ export async function getStaticProps({ params: { slug } }) {
   const markdownWithMeta = fs.readFileSync(path.join('posts', slug + '.md'), 'utf-8')
   const { data: frontmatter, content } = matter(markdownWithMeta)
   return {
-    props: { frontmatter, content },
+    props: {
+      frontmatter: {
+        ...frontmatter,
+        date: new Date(frontmatter.date).toISOString(), // 或者 frontmatter.date.toString()
+      },
+      content,
+    },
   }
 }
